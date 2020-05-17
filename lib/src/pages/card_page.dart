@@ -9,7 +9,7 @@ class CardPage extends StatelessWidget {
       ),
       body: ListView(
         padding: EdgeInsets.all(10.0),
-        children: <Widget>[_cardTipo1()],
+        children: <Widget>[_cardTipo1(), SizedBox(height: 30.0), _cardTipo2()],
       ),
     );
   }
@@ -37,6 +37,30 @@ class CardPage extends StatelessWidget {
               )
             ],
           )
+        ],
+      ),
+    );
+  }
+
+  Widget _cardTipo2() {
+    return Card(
+      child: Column(
+        children: <Widget>[
+          FadeInImage(
+            image: NetworkImage('https://images.hdqwalls.com/wallpapers/minimal-sunset-landscape-4k-w5.jpg'),
+            placeholder: AssetImage('assets/images/jar-loading.gif'),
+            fadeInDuration: Duration(milliseconds: 200),
+            height: 300.0,
+            fit: BoxFit.cover,
+          ),
+          // Image(
+          //   image: NetworkImage(
+          //       'https://images.hdqwalls.com/wallpapers/minimal-sunset-landscape-4k-w5.jpg'),
+          // ),
+          Container(
+            child: Text('Descripción de la imágen'),
+            padding: EdgeInsets.all(10.0),
+          ),
         ],
       ),
     );
