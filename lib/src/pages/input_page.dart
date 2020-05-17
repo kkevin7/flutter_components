@@ -10,6 +10,9 @@ class _InputPageState extends State<InputPage> {
   String _email = '';
   String _password = '';
   String _fecha = '';
+  String _opcionSeleccionada = 'Volar';
+
+  List _poderes = ['Volar', 'Rayos X', 'Super Aliento', 'Super fuerza'];
 
   TextEditingController _inputFieldDateController = new TextEditingController();
 
@@ -29,6 +32,8 @@ class _InputPageState extends State<InputPage> {
           crearPassword(),
           Divider(),
           crearFecha(context),
+          Divider(),
+          crearDropdowm(),
           Divider(),
           _crearPesona(),
         ],
@@ -61,6 +66,7 @@ class _InputPageState extends State<InputPage> {
     return ListTile(
       title: Text('Nombre es: $_nombre'),
       subtitle: Text('Email es: $_email'),
+      trailing: Text(_opcionSeleccionada),
     );
   }
 
@@ -127,14 +133,46 @@ class _InputPageState extends State<InputPage> {
         initialDate: new DateTime.now(),
         firstDate: new DateTime(2018),
         lastDate: new DateTime(2025),
-        locale: Locale('es', 'ES')
-        );
+        locale: Locale('es', 'ES'));
 
-        if(picked != null){
-          setState(() {
-            _fecha = picked.toString();
-            _inputFieldDateController.text = _fecha;
-          });
-        }
+    if (picked != null) {
+      setState(() {
+        _fecha = picked.toString();
+        _inputFieldDateController.text = _fecha;
+      });
+    }
+  }
+
+  List<DropdownMenuItem<String>> getOpcionesDropdown() {
+    List<DropdownMenuItem<String>> lista = new List();
+    _poderes.forEach((poder) {
+      lista.add(DropdownMenuItem(
+        child: Text(poder),
+        value: poder,
+      ));
+    });
+    return lista;
+  }
+
+  Widget crearDropdowm() {
+    return Row(
+      children: <Widget>[
+        Icon(Icons.select_all),
+        SizedBox(
+          width: 30.0,
+        ),
+        Expanded(
+          child: DropdownButton(
+            value: _opcionSeleccionada,
+            items: getOpcionesDropdown(),
+            onChanged: (opt) {
+              setState(() {
+                _opcionSeleccionada = opt;
+              });
+            },
+          ),
+        ),
+      ],
+    );
   }
 }
