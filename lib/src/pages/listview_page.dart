@@ -50,16 +50,20 @@ class _ListaPageState extends State<ListaPage> {
   }
 
   Widget _crearLista() {
-    return ListView.builder(
-      controller: _scrollController,
-      itemCount: _listaNumeros.length,
-      itemBuilder: (BuildContext context, int index) {
-        final imagen = _listaNumeros[index];
-        return FadeInImage(
-          image: NetworkImage('https://i.picsum.photos/id/$imagen/500/300.jpg'),
-          placeholder: AssetImage('assets/images/jar-loading.gif'),
-        );
-      },
+    return RefreshIndicator(
+      onRefresh: obtenerPagina1,
+      child: ListView.builder(
+        controller: _scrollController,
+        itemCount: _listaNumeros.length,
+        itemBuilder: (BuildContext context, int index) {
+          final imagen = _listaNumeros[index];
+          return FadeInImage(
+            image:
+                NetworkImage('https://i.picsum.photos/id/$imagen/500/300.jpg'),
+            placeholder: AssetImage('assets/images/jar-loading.gif'),
+          );
+        },
+      ),
     );
   }
 
@@ -83,7 +87,7 @@ class _ListaPageState extends State<ListaPage> {
     _isLoading = false;
 
     _scrollController.animateTo(
-      _scrollController.position.pixels +100,
+      _scrollController.position.pixels + 100,
       curve: Curves.fastOutSlowIn,
       duration: Duration(milliseconds: 250),
     );
@@ -111,5 +115,16 @@ class _ListaPageState extends State<ListaPage> {
     } else {
       return Container();
     }
+  }
+
+  Future<Null> obtenerPagina1() async {
+    final _duration = new Duration(seconds: 2);
+    new Timer(_duration, () {
+      _listaNumeros.clear();
+      _ultimoItem++;
+      _agregar10();
+    });
+
+    return Future.delayed(_duration);
   }
 }
